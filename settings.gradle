@@ -1,0 +1,2 @@
+rootProject.name = "Api_php_demo"
+include ':app'
