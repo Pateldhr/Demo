@@ -4,12 +4,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.api_php_demo.model.AppMenuResponse;
 import com.example.api_php_demo.model.Variablebag;
+
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Success!!", Toast.LENGTH_SHORT).show();
                 getAppmenu();
             }
         });
@@ -73,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 //                                if (appMenuResponse.getStatus().equals("200")) {
 //                                    Toast.makeText(MainActivity.this, "Success!!", Toast.LENGTH_SHORT).show();
 //
-//                                    if (appMenuResponse.getUserId() == String.valueOf(true)) {
+//                                    if (appMenuResponse()==true) {
 //                                        String id = user_id.getText().toString();
 //                                        String name = user_name.getText().toString();
 //
@@ -84,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 //
 //                                    }
 //
-////                                    Toast.makeText(MainActivity.this, "Success!!", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(MainActivity.this, "Success!!", Toast.LENGTH_SHORT).show();
 //                                }
 //                            }
 //                        });
@@ -97,16 +100,17 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         RestCall api = retrofit.create(RestCall.class);
-        Call<AppMenuResponse> call = api.getAppMenu("123567890", "dhruvi@123", "checklogin");
+        Call<AppMenuResponse> call = api.adddata(user_id.getText().toString(), user_name.getText().toString(),
+                user_mobile.getText().toString(), user_password.getText().toString());
         call.enqueue(new Callback<AppMenuResponse>() {
             @Override
             public void onResponse(Call<AppMenuResponse> call, Response<AppMenuResponse> response) {
-                if (response.isSuccessful()) {
-                    user_id.setText("");
-                    user_name.setText("");
-                    user_mobile.setText("");
-                    user_password.setText("");
-                    Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+                if (response.body().getStatus().equals("200")) {
+//                    user_id.setText("");
+//                    user_name.setText("");
+//                    user_mobile.setText("");
+//                    user_password.setText("");
+                    Toast.makeText(getApplicationContext(), response.body().getUserFullname(), Toast.LENGTH_LONG).show();
                 }
             }
 
